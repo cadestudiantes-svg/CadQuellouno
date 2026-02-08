@@ -1,0 +1,34 @@
+name: Generar lista de libros
+
+on:
+  push:
+    paths:
+      - 'textos/*.txt'
+  workflow_dispatch:
+
+jobs:
+  generar-json:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generar libros.json
+        run: |
+          python3 - <<EOF
+          import json
+          import glob
+          import os
+
+          archivos = [os.path.basename(f) for f in glob.glob('textos/*.txt')]
+          archivos.sort()
+
+          with open('libros.json', 'w', encoding='utf-8') as f:
+              json.dump(archivos, f, ensure_ascii=False, indent=2)
+          EOF
+
+      - name: Commit y push libros.json si cambió
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add libros.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualizar lista de libros" && git push)
