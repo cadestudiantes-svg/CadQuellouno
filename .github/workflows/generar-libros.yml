@@ -1,5 +1,6 @@
 name: Generar lista de libros
-
+permissions:
+  contents: write   # ← Esta línea es la nueva y importante
 on:
   push:
     paths:
