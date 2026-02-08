@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Literaria para Estudiantes</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body class="modo-claro">
+    <header>
+        <h1>Biblioteca Literaria Estudiantil</h1>
+        <p>Selecciona un libro para leerlo</p>
+    </header>
+
+    <main id="estanteria" class="estanteria">
+        <p>Cargando catálogo...</p>
+    </main>
+
+    <script>
+        // === AQUÍ AÑADES LOS ARCHIVOS .TXT (uno por línea) ===
+        const libros = [
+            'orgullo_y_prejuicio_-_jane_austen.txt',
+            'don_quijote_de_la_mancha_-_miguel_de_cervantes.txt',
+            // Añade nuevos así: 'nuevo_libro_-_autor.txt',
+        ];
+
+        // Función mejorada para títulos y autores en español correcto
+        function formatearLibro(nombreArchivo) {
+            const sinExtension = nombreArchivo.replace('.txt', '');
+            const partes = sinExtension.split('_-_');
+            let tituloRaw = partes[0] || 'sin_titulo';
+            let autorRaw = partes[1] || 'autor_desconocido';
+
+            const palabrasMinus = new Set(['y', 'de', 'la', 'el', 'los', 'las', 'un', 'una', 'del', 'por', 'en', 'a', 'o']);
+
+            function capitalizar(str) {
+                return str.toLowerCase().split('_').join(' ').split(' ').map((palabra, index) => {
+                    if (index === 0 || !palabrasMinus.has(palabra)) {
+                        return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+                    }
+                    return palabra;
+                }).join(' ');
+            }
+
+            const titulo = capitalizar(tituloRaw);
+            const autor = capitalizar(autorRaw);
+
+            return { titulo, autor, archivo: nombreArchivo };
+        }
+
+        // Generar catálogo automáticamente
+        function generarCatalogo() {
+            const contenedor = document.getElementById('estanteria');
+            contenedor.innerHTML = '';
+
+            if (libros.length === 0) {
+                contenedor.innerHTML = '<p>No hay libros disponibles.</p>';
+                return;
+            }
+
+            libros.sort().forEach(libro => {  // Orden alfabético opcional
+                const info = formatearLibro(libro);
+                const divLibro = document.createElement('div');
+                divLibro.className = 'libro';
+                divLibro.onclick = () => abrirLibro(info.archivo, `${info.titulo} - ${info.autor}`);
+
+                divLibro.innerHTML = `
+                    <h3>${info.titulo}</h3>
+                    <p class="autor">${info.autor}</p>
+                `;
+                contenedor.appendChild(divLibro);
+            });
+        }
+
+        function abrirLibro(archivo, titulo) {
+            window.location.href = `lector.html?libro=${encodeURIComponent(archivo)}&titulo=${encodeURIComponent(titulo)}`;
+        }
+
+        window.onload = generarCatalogo;
+    </script>
+</body>
+</html>

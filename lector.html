@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lector - Biblioteca Literaria</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body class="modo-claro">
+    <header>
+        <a href="index.html">← Volver a la biblioteca</a>
+        <h1 id="titulo-libro">Cargando...</h1>
+        <button onclick="cambiarModo()">Modo oscuro</button>
+    </header>
+
+    <main id="contenido" class="lector-contenido">
+        <p>Cargando texto...</p>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Leer parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+        const archivo = params.get('libro');
+        const titulo = params.get('titulo') || 'Libro';
+
+        document.getElementById('titulo-libro').textContent = titulo;
+
+        if (archivo) {
+            cargarLibro(archivo);
+        }
+    </script>
+</body>
+</html>

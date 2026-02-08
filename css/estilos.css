@@ -1,0 +1,70 @@
+/* Fuentes elegantes para lectura */
+body {
+    font-family: 'Lora', serif;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fdfaf3;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+}
+
+h1, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Estantería */
+.estanteria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.libro {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.libro:hover {
+    transform: translateY(-5px);
+}
+
+/* Lector */
+.lector-contenido {
+    font-size: 1.1rem;
+    text-align: justify;
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    min-height: 70vh;
+}
+
+.lector-contenido p {
+    margin-bottom: 1.5em;
+}
+
+/* Modo oscuro */
+.modo-oscuro {
+    background: #121212;
+    color: #e0e0e0;
+}
+
+.modo-oscuro .lector-contenido {
+    background: #1e1e1e;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .lector-contenido { padding: 20px; }
+}
