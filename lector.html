@@ -6,30 +6,153 @@
     <title>Lector - Biblioteca Literaria</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para el botón dinámico */
+        #boton-dinamico-final {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 18px 32px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-family: 'Lora', serif;
+            min-width: 300px;
+            margin: 20px auto;
+        }
+        
+        #boton-dinamico-final:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+        }
+        
+        .boton-texto {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .boton-subtexto {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .boton-dinamico-container {
+            text-align: center;
+            margin: 40px 0 60px 0;
+            padding: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .indicador-boton {
+            margin-top: 10px;
+            font-size: 1.5rem;
+            opacity: 0.5;
+            animation: pulso 2s infinite;
+        }
+        
+        .mensaje-info {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        @keyframes pulso {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Para modo oscuro */
+        body.modo-oscuro .boton-dinamico-container {
+            border-top-color: #444;
+        }
+        
+        body.modo-oscuro .mensaje-info {
+            color: #aaa;
+        }
+    </style>
 </head>
 <body class="modo-claro">
-    <header>
-        <a href="index.html">← Volver a la biblioteca</a>
+    <header class="header-lector">
+        <a href="index.html" class="boton-volver">← Volver al catálogo</a>
         <h1 id="titulo-libro">Cargando...</h1>
-        <button onclick="cambiarModo()">Modo oscuro</button>
+        <button onclick="cambiarModo()" id="boton-modo">Modo oscuro</button>
     </header>
 
     <main id="contenido" class="lector-contenido">
         <p>Cargando texto...</p>
     </main>
 
+    <!-- Botón dinámico independiente -->
+    <div id="contenedor-boton-dinamico"></div>
+
     <script src="js/script.js"></script>
     <script>
         // Leer parámetros de la URL
         const params = new URLSearchParams(window.location.search);
         const archivo = params.get('libro');
-        const titulo = params.get('titulo') || 'Libro';
+        const titulo = params.get('titulo') || 'Libro sin título';
 
         document.getElementById('titulo-libro').textContent = titulo;
 
+        // Cargar el texto del libro
         if (archivo) {
-            cargarLibro(archivo);
+            cargarTexto(archivo);
+        } else {
+            document.getElementById('contenido').innerHTML = '<p>No se especificó ningún libro.</p>';
         }
+
+        // === CREAR BOTÓN DINÁMICO DE FORMA INDEPENDIENTE ===
+        function crearBotonDinamico() {
+            const contenedor = document.getElementById('contenedor-boton-dinamico');
+            if (!contenedor) return;
+            
+            // Obtener el título limpio
+            const tituloLibro = titulo.split(' - ')[0];
+            const tituloWikipedia = tituloLibro.replace(/ /g, '_');
+            
+            // Crear el HTML del botón
+            contenedor.innerHTML = `
+                <div class="boton-dinamico-container">
+                  
+                    <button id="boton-dinamico-final">
+                        <span class="boton-texto">📚 CUESTIONARIO DE "${tituloLibro}"</span>
+                       
+                    </button>
+                    <div class="indicador-boton">↓</div>
+                </div>
+            `;
+            
+            // Agregar evento click al botón
+            const boton = document.getElementById('boton-dinamico-final');
+            if (boton) {
+                boton.addEventListener('click', function() {
+                    window.open(`https://es.wikipedia.org/wiki/${encodeURIComponent(tituloWikipedia)}`, '_blank');
+                });
+            }
+        }
+
+        // Crear el botón inmediatamente al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            crearBotonDinamico();
+        });
+
+        // También crear el botón después de cargar el texto (por si acaso)
+        const originalCargarTexto = cargarTexto;
+        cargarTexto = async function(archivo) {
+            await originalCargarTexto(archivo);
+            // Asegurarse de que el botón exista
+            if (!document.getElementById('boton-dinamico-final')) {
+                crearBotonDinamico();
+            }
+        };
     </script>
 </body>
 </html>
