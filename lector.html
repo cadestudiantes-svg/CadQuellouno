@@ -20,12 +20,14 @@
 
     <script src="js/script.js"></script>
     <script>
-        // Leer parámetros de la URL
-        const params = new URLSearchParams(window.location.search);
-        const archivo = params.get('libro');
-        const titulo = params.get('titulo') || 'Libro sin título';
+// Leer parámetros de la URL
+const params = new URLSearchParams(window.location.search);
+const archivo = params.get('libro');
+const titulo = params.get('titulo') || 'Libro sin título';
+// NUEVO: Leer el enlace específico
+const enlaceEspecifico = params.get('enlace') || 'https://forms.office.com/default';
 
-        document.getElementById('titulo-libro').textContent = titulo;
+document.getElementById('titulo-libro').textContent = titulo;
 
         if (archivo) {
             cargarTexto(archivo);
@@ -38,6 +40,10 @@
 window.addEventListener('load', function() {
     // Esperar a que se cargue el contenido del libro
     setTimeout(function() {
+        // Leer el enlace específico que ya obtuvimos antes
+        const params = new URLSearchParams(window.location.search);
+        const enlaceBoton = params.get('enlace') || 'https://forms.office.com/default';
+        
         // Crear botón con estilo coherente
         const botonSection = document.createElement('section');
         botonSection.className = 'navegacion-libro';
@@ -49,7 +55,7 @@ window.addEventListener('load', function() {
         `;
 
         const boton = document.createElement('a');
-        boton.href = "https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAYAADyRcWBUNFozN1dZRVBJVkhFRUtLVTIyTERJWFhLRC4u"; // ⚠️ Cambia esta URL
+        boton.href = enlaceBoton; // ¡USA EL ENLACE ESPECÍFICO!
         boton.className = 'boton-principal';
         boton.innerHTML = `
             <svg width="20" height="20" viewBox="0 0 24 24" style="margin-right: 10px; vertical-align: middle;">
@@ -86,10 +92,11 @@ window.addEventListener('load', function() {
 
         botonSection.appendChild(boton);
         document.body.appendChild(botonSection);
-    }, 1000); // Esperar 1 segundo para asegurar que el contenido del libro se cargó
+    }, 1000); // Esperar 1 segundo
 });
 </script>
 </body>
 </html>
+
 
 
