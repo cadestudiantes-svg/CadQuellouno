@@ -1,5 +1,14 @@
 [
-  "El Joven que Olvidó el Mundo Real.txt",
-  "El Susurro del Willkamayu.txt",
-  "El susurro del Apu Kuntur.txt"
+  {
+    "archivo": "El Joven que Olvidó el Mundo Real.txt",
+    "enlace": "https://forms.office.com/libro1"
+  },
+  {
+    "archivo": "El Susurro del Willkamayu.txt", 
+    "enlace": "https://forms.office.com/libro2"
+  },
+  {
+    "archivo": "El susurro del Apu Kuntur.txt",
+    "enlace": "https://forms.office.com/libro3"
+  }
 ]
