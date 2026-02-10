@@ -84,14 +84,14 @@
             }
         }
 
-      function abrirLibro(archivo, titulo, enlace) {
+function abrirLibro(archivo, titulo, enlace) {
     window.location.href = `lector.html?libro=${encodeURIComponent(archivo)}&titulo=${encodeURIComponent(titulo)}&enlace=${encodeURIComponent(enlace)}`;
 }
-
         // Cargar el catálogo al abrir la página
         window.onload = cargarCatalogo;
     </script>
 </body>
 </html>
+
 
 
