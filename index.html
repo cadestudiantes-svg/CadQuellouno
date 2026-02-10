@@ -62,7 +62,7 @@
                     const info = formatearLibro(libro);
                     const divLibro = document.createElement('div');
                     divLibro.className = 'libro';
-                    divLibro.onclick = () => abrirLibro(info.archivo, `${info.titulo} - ${info.autor}`);
+                    divLibro.onclick = () => Libro(info.archivo, `${info.titulo} - ${info.autor}`);
 
                     divLibro.innerHTML = `
                         <h3>${info.titulo}</h3>
@@ -77,12 +77,13 @@
             }
         }
 
-        function abrirLibro(archivo, titulo) {
-            window.location.href = `lector.html?libro=${encodeURIComponent(archivo)}&titulo=${encodeURIComponent(titulo)}`;
-        }
+      function abrirLibro(archivo, titulo, enlace) {
+    window.location.href = `lector.html?libro=${encodeURIComponent(archivo)}&titulo=${encodeURIComponent(titulo)}&enlace=${encodeURIComponent(enlace)}`;
+}
 
         // Cargar el catálogo al abrir la página
         window.onload = cargarCatalogo;
     </script>
 </body>
 </html>
+
