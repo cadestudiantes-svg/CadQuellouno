@@ -58,18 +58,25 @@
                 // Orden alfabético opcional por título
                 libros.sort();
 
-                libros.forEach(libro => {
-                    const info = formatearLibro(libro);
-                    const divLibro = document.createElement('div');
-                    divLibro.className = 'libro';
-                    divLibro.onclick = () => Libro(info.archivo, `${info.titulo} - ${info.autor}`);
+      libros.forEach(libro => {
+    // libro ahora es un objeto, no solo un string
+    const info = formatearLibro(libro.archivo);
+    const divLibro = document.createElement('div');
+    divLibro.className = 'libro';
+    
+    // Pasar TRES parámetros: archivo, título completo y ENLACE
+    divLibro.onclick = () => abrirLibro(
+        libro.archivo, 
+        `${info.titulo} - ${info.autor}`, 
+        libro.enlace
+    );
 
-                    divLibro.innerHTML = `
-                        <h3>${info.titulo}</h3>
-                        <p class="autor">${info.autor}</p>
-                    `;
-                    contenedor.appendChild(divLibro);
-                });
+    divLibro.innerHTML = `
+        <h3>${info.titulo}</h3>
+        <p class="autor">${info.autor}</p>
+    `;
+    contenedor.appendChild(divLibro);
+});
 
             } catch (error) {
                 document.getElementById('estanteria').innerHTML = '<p>Error al cargar el catálogo. Verifica que libros.json exista.</p>';
@@ -86,4 +93,5 @@
     </script>
 </body>
 </html>
+
 
